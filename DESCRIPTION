@@ -1,0 +1,15 @@
+Package: spAgroClimate
+Title: Agroclimatic variables and spatial distribution
+Version: 0.0.0.9
+Authors@R: 
+    person("Guillermo S.", "Last", , "first.last@example.com", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: This package provides a set of functions to calculate agroclimatic variables and their spatial distribution. It aims to help agricultural researchers and practitioners to analyze and model agroclimatic data.
+Depends:
+    raster, sp, ggplot2, lubridate, reshape2, pbapply, terra
+License: GPL-3
+URL: https://github.com/djwillichile/spAgroClimate
+BugReports: https://github.com/djwillichile/spAgroClimate/issues
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1
