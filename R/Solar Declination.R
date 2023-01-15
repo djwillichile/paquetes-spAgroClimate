@@ -11,6 +11,7 @@
 #' solarDeclination(270) # -0.04569977
 #' @export
 solarDeclination <- function(i) {
-  dec = angleTransform(23.45) * sin(2*pi*(i + 284)/ 365)
+  grad = angleTransform(23.45)
+  dec = grad * sin(2*pi*(i + 284)/ 365)
   dec
 }

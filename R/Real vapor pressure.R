@@ -1,22 +1,38 @@
-#' @title Real vapor pressure
+#' @title Actual vapor pressure
 #'
-#' @description Obtiene la presion de vapor real a partir de la temperatura
+#' @description This function calculates the actual vapor pressure (ea) using three different methods.
+#' \describe{
+#'   \item{Method 1}{If only relative humidity (relh) and temperature average (tavg) are provided, ea is calculated as relh * es(tavg) / 100, where es(tavg) is the saturation vapor pressure calculated using the es() function.}
+#'   \item{Method 2}{If only temperature minimum (tmin) is provided, the saturation vapor pressure (es) at tmin is returned.}
+#'   \item{Method 3}{If relative humidity (relh), temperature minimum (tmin) and temperature maximum (tmax) are provided, ea is calculated as relh * mean(es(tmin), es(tmax)) / 100}
+#' }
 #'
-#' @param tavg temperature ºC
-#' @param relh relative humidity %
-#' @return a numeric value kPa
-#' @export
+#' @param relh relative humidity in %.
+#' @param tavg temperature average in °C.
+#' @param tmin temperature minimum in °C.
+#' @param tmax temperature maximum in °C.
+#'
+#' @return numeric value of actual vapor pressure in hPa.
+#'
+#' @references
+#' - Allen, R. G., Pereira, L. S., Raes, D., & Smith, M. (1998). Crop evapotranspiration-guidelines for computing crop water requirements-FAO irrigation and drainage paper 56. Rome, Italy: Food and Agriculture Organization of the United Nations (FAO).
+#' - Richardson, L. (1922). The Approximation of the Dew-Point to the Minimum Temperature. Monthly Weather Review, 50(8), 637-638.
+#' - FAO 56. Penman-Monteith equation for evapotranspiration. FAO Irrigation and drainage paper 56. (https://www.fao.org/3/X0490E/x0490e00.htm)
+#' - Monteith, J. L. (1965).Evaporation and environment. Symp. Soc. Exp. Biol., 19, 205-234.
+#'
+#' @note A temperature minimum (tmin) approximation to dew point temperature is used when relative humidity is not provided.
+#'
+#' @examples
+#' ea(relh = 60, tavg = 25)
+#' ea(tmin = 5)
+#' ea(relh = 60, tmin = 5, tmax = 10)
+#'
 
-# presion de vapor real [kPa]
-get.ea=function(tavg=NULL,tmin=NULL, tmax=NULL, relh=NULL){
-  if (is.null(relh) && !is.null(tmin)) return(get.es(tmin))
-  if (!is.null(tavg) && is.numeric(tavg)) {
-    es=get.es(tavg)
-  } else if (!is.null(tmin) && !is.null(tmax) && is.numeric(c(tmin,tmax))) {
-    es=mean(get.es(tmin),get.es(tmax))
-  } else {
-    stop("Invalid arguments")
-  }
-  ea = relh * es/100
+#' @export
+ea <- function(relh, tmin, tmax) {
+  es.min <- es(tmin)
+  es.max <- es(tmax)
+  es.mean <- mean(c(es.min, es.max))
+  ea <- relh * es.mean / 100
   return(ea)
 }

@@ -21,3 +21,4 @@ angleTransform <- function(x, type = "d") {
   else if(match_type <= 3) return(x*pi/180)
   else return(x*180/pi)
 }
+
